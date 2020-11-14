@@ -72,7 +72,8 @@ textarea {
     padding: 0;
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
-    -webkit-overflow-scrolling: touch; 
+    -webkit-overflow-scrolling: touch;
+    color: white; 
 }
 
 html {
@@ -84,22 +85,165 @@ html {
 }
 
 body {
+    display: flex;
+    flex-flow: column nowrap;
     width: 100%;
     min-height: 100%;
-    background-color: white;
+    background-color: rgb(48, 160, 197);
+    font-family: helvetica;
+}
+
+.searchbarOutterContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 5rem 0;
+}
+
+.searchbarInnerContainer {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+}
+
+.input {
+    outline: none;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 0.6rem;
+    width: 60vw;
+    color: grey;
+}
+
+.fa-plus {
+    position: absolute;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    right: 0;
+    top: 0.54rem;
+    cursor: pointer;
+    color: transparent;
+    transition: all ease-in-out 0.2s;
+}
+
+.labelContainer,
+.fa-plus {
+    pointer-events: none;
+}
+
+.labelContainer span {
+    color: grey;
+    position: absolute;
+    left: 0.6rem;
+    top: 0.35rem;
+    transition: all ease-in-out 0.2s;
+}
+
+.searchbarInnerContainer:focus-within .labelContainer > span {
+    transform: translateX(-0.6rem);
+    color: transparent;
+}
+
+.searchbarInnerContainer:focus-within .fa-plus {
+    right: 0.6rem;
+    transform: rotateZ(180deg);
+    color: grey;
+}
+
+.weatherDisplayContainer {
+    display: flex;
+    flex-flow: nowrap column;
+    gap: 2.5rem;
+}
+
+.weatherInnerContainer {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 90%;
+    margin: auto;
+    padding: 0.5rem 0;
+}
+
+.weatherInfo {
+    flex: 1;
+}
+
+.feeling {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.weatherLogo {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex: 1;   
 }
 
 /* Small devices (landscape phones, 576px and up) */
-@media only screen and (min-width: 576px) {}
+@media only screen and (min-width: 576px) {
+
+    .weatherInnerContainer {
+        width: 70%;
+        padding: 1rem 2rem;
+    }
+
+    .input {
+        width: 50vw;
+    }
+}
 
 /* Medium devices (tablets, 768px and up) */
-@media only screen and (min-width: 768px) {}
+@media only screen and (min-width: 768px) {
+
+    .weatherInnerContainer {
+        width: 65%;
+    }
+
+    .input {
+        width: 40vw;
+    }
+}
 
 /* Large devices (desktops, 992px and up) */
-@media only screen and (min-width: 992px) {}
+@media only screen and (min-width: 992px) {
+
+    .weatherDisplayContainer {
+        flex-flow: row wrap;
+        justify-content: space-evenly;
+    }
+
+    .weatherInnerContainer {
+        width: 40%;
+        margin: 0;
+    }
+
+    .input {
+        width: 30vw;
+    }
+}
 
 /* Extra large devices (large desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {}
+@media only screen and (min-width: 1200px) {
+
+    .weatherDisplayContainer {
+        justify-content: center;
+        gap: 8.5rem;
+    }
+
+    .weatherInnerContainer {
+        width: 28rem;
+        margin: 0;
+    }
+    
+    .input {
+        width: 25rem;
+    }
+}
 
 /* ==========================================================================
    Helper classes

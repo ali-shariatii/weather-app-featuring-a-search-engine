@@ -3,14 +3,14 @@
 
 <head>
     <meta charset="utf-8">
-    <title></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Weather App Featuring Reusable Search Engine</title>
+    <meta name="viewport" content="wclassth=device-wclassth, initial-scale=1">
 
     <!-- add google search description here -->
     <meta name="description" content="">
 
     <!-- share window structure in social medias (facebook, twitter) 
-    Reconciling the guidelines for the image is simple: follow Facebook’s 
+    Reconciling the guclasselines for the image is simple: follow Facebook’s 
     recommendation of a minimum dimension of 1200×630 pixels and an aspect ratio 
     of 1.91:1, but adhere to Twitter’s file size requirement of less than 1MB.
     Use absolute paths (http://www.mysite.com) for the img & the url meta tags.
@@ -34,6 +34,7 @@
     <link rel="preload" href="" as="font" type="font/" crossorigin>
 
     <!-- Place CDN vendor here -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <script src="" integrity="" crossorigin="anonymous"></script>
 </head>
 
@@ -41,7 +42,42 @@
     
     <!-- SITE CONTENT STARTS HERE -->
 
-    <p>Yo!</p>
+    <div class="appContainer">
+
+        <div class="searchbarOutterContainer">
+            <div class="searchbarInnerContainer">
+                <input type="text" name="new location" autocomplete="off" class="input">
+                <label for="new location" class="labelContainer">
+                    <span>Add More Cities</span>
+                </label>
+                <button class="fa fa-plus"></button>
+            </div>
+        </div>
+
+        <div class="weatherDisplayContainer">
+
+            <div class="weatherInnerContainer">
+
+                <div class="weatherInfo">
+                    <h3 class="location">location</h3>
+                    <p class="temperature">
+                        <span class="celsius">10C</span>
+                        <span class="fahrenheit">10F</span>
+                    </p>
+                </div>
+
+                <div class="feeling">
+                    <p>feeling</p>
+                </div>
+
+                <div class="weatherLogo">
+                    <p>logo</p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
 
     <!-- SITE CONTENT ENDS HERE -->
 
@@ -50,7 +86,7 @@
     <script src="scripts/plugins.js"></script>
     <script src="scripts/main.js"></script>
 
-    <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+    <!-- Google Analytics: change UA-XXXXX-Y to be your site's class. -->
     <script>
         window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
         ga('create', 'UA-XXXXX-Y', 'auto'); ga('set', 'anonymizeIp', true); ga('set', 'transport', 'beacon'); ga('send', 'pageview')
