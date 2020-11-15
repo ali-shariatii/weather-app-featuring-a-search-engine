@@ -11,7 +11,7 @@
 
     <!-- share window structure in social medias (facebook, twitter) 
     Reconciling the guclasselines for the image is simple: follow Facebook’s 
-    recommendation of a minimum dimension of 1200×630 pixels and an aspect ratio 
+    recommendation of a minimum dimension of 12- ×630 pixels and an aspect ratio 
     of 1.91:1, but adhere to Twitter’s file size requirement of less than 1MB.
     Use absolute paths (http://www.mysite.com) for the img & the url meta tags.
     Refer to https://ogp.me/ for more info. -->
@@ -46,36 +46,39 @@
 
         <div class="searchbarOutterContainer">
             <div class="searchbarInnerContainer">
-                <input type="text" name="new location" autocomplete="off" class="input">
+                <input type="text" name="new location" autocomplete="off" id="input">
                 <label for="new location" class="labelContainer">
-                    <span>Add More Cities</span>
+                    <span>Add more cities ...</span>
                 </label>
                 <button class="fa fa-plus"></button>
             </div>
         </div>
 
         <div class="weatherDisplayContainer">
-
             <div class="weatherInnerContainer">
-
-                <div class="weatherInfo">
-                    <h3 class="location">location</h3>
-                    <p class="temperature">
-                        <span class="celsius">10C</span>
-                        <span class="fahrenheit">10F</span>
+                <div class="weatherInfo" id="currentWeatherInfo">
+                    <h3 id="currentTimezone">Timezone</h3>
+                    <p>
+                        <span id="celsius"><i class="fa fa-thermometer-half"></i> - &#8451;</span>
+                        <span class="fahrenheit" id="fahrenheit"><i class="fa fa-thermometer-three-quarters"></i> - &#8457;</span>
                     </p>
+                    <p>
+                        <span id="minMax"><i class="fa fa-sort-alt"></i> - &#8451; / - &#8451;</span>
+                        <span class="humidity" id="humidity"><i class="fa fa-tint"></i> - %</span>
+                    </p>
+                    <p id="description">Description</p>
                 </div>
 
-                <div class="feeling">
-                    <p>feeling</p>
-                </div>
-
-                <div class="weatherLogo">
+                <div class="weatherLogo" id="currentLogo">
                     <p>logo</p>
-                </div>
+                </div>   
 
+                <div id="alert">
+                    <p>Automatic geolocator is not working because it's neither supported by this browser nor the Location access is on. Add your current location manually instead!</p>
+                </div>
             </div>
 
+            <div class="cityToAdd"><i class="fa fa-map-marker-plus"></i></div>
         </div>
     </div>
 

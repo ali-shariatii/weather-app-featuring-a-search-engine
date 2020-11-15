@@ -17,22 +17,15 @@
 */
 
 ::-moz-selection {
+    background-color: rgb(158, 158, 158);
+    color: white;
     text-shadow: none;
 }
 
 ::selection {
+    background-color: rgb(158, 158, 158);
+    color: white;
     text-shadow: none;
-}
-
-/* A better looking default horizontal rule */
-
-hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  border-top: 1px solid #ccc;
-  margin: 1em 0;
-  padding: 0;
 }
 
 /*
@@ -89,7 +82,7 @@ body {
     flex-flow: column nowrap;
     width: 100%;
     min-height: 100%;
-    background-color: rgb(48, 160, 197);
+    background: linear-gradient(rgb(48, 160, 197), rgb(4, 66, 87));
     font-family: helvetica;
 }
 
@@ -107,13 +100,14 @@ body {
     height: fit-content;
 }
 
-.input {
+#input {
     outline: none;
     border: none;
     padding: 0.5rem;
     border-radius: 0.6rem;
     width: 60vw;
     color: grey;
+    transition: 0.1s all linear;
 }
 
 .fa-plus {
@@ -122,7 +116,7 @@ body {
     border: none;
     background-color: transparent;
     right: 0;
-    top: 0.54rem;
+    top: 0.55rem;
     cursor: pointer;
     color: transparent;
     transition: all ease-in-out 0.2s;
@@ -134,10 +128,10 @@ body {
 }
 
 .labelContainer span {
-    color: grey;
+    color: rgb(170, 170, 170);
     position: absolute;
     left: 0.6rem;
-    top: 0.35rem;
+    top: 0.45rem;
     transition: all ease-in-out 0.2s;
 }
 
@@ -149,7 +143,8 @@ body {
 .searchbarInnerContainer:focus-within .fa-plus {
     right: 0.6rem;
     transform: rotateZ(180deg);
-    color: grey;
+    color: rgb(48, 160, 197);
+    pointer-events: initial;
 }
 
 .weatherDisplayContainer {
@@ -166,22 +161,43 @@ body {
     padding: 0.5rem 0;
 }
 
-.weatherInfo {
-    flex: 1;
+.cityToAdd {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    margin: 0 auto 5rem auto;
+    font-size: 3.3rem;
 }
 
-.feeling {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 1;
+.fa-map-marker-plus {
+    color:rgba(187, 187, 187, 0.35);
+    cursor: pointer;
+}
+
+.weatherInfo {
+    flex: 2.5;
+}
+
+.fahrenheit,
+.humidity {
+    margin-left: 1.3rem;
 }
 
 .weatherLogo {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
-    flex: 1;   
+    flex: 1; 
+}
+
+#alert {
+    display: none;
+}
+
+#alert p {
+    text-align: center;
+    color: rgb(187, 187, 187);
 }
 
 /* Small devices (landscape phones, 576px and up) */
@@ -192,7 +208,11 @@ body {
         padding: 1rem 2rem;
     }
 
-    .input {
+    .cityToAdd {
+        width: 70%;
+    }
+
+    #input {
         width: 50vw;
     }
 }
@@ -200,11 +220,12 @@ body {
 /* Medium devices (tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
 
-    .weatherInnerContainer {
+    .weatherInnerContainer,
+    .cityToAdd {
         width: 65%;
     }
 
-    .input {
+    #input {
         width: 40vw;
     }
 }
@@ -214,15 +235,16 @@ body {
 
     .weatherDisplayContainer {
         flex-flow: row wrap;
-        justify-content: space-evenly;
+        justify-content: center;
     }
 
-    .weatherInnerContainer {
+    .weatherInnerContainer,
+    .cityToAdd {
         width: 40%;
         margin: 0;
     }
 
-    .input {
+    #input {
         width: 30vw;
     }
 }
@@ -230,17 +252,12 @@ body {
 /* Extra large devices (large desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
 
-    .weatherDisplayContainer {
-        justify-content: center;
-        gap: 8.5rem;
-    }
-
-    .weatherInnerContainer {
+    .weatherInnerContainer,
+    .cityToAdd {
         width: 28rem;
-        margin: 0;
     }
     
-    .input {
+    #input {
         width: 25rem;
     }
 }
