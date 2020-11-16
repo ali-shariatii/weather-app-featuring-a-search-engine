@@ -2,35 +2,91 @@
 
 window.addEventListener('load', () => {
 
-    const addSymbol = document.querySelector('.cityToAdd i');
-    const input = document.querySelector('#input');
-    const miniAddSymbol = document.querySelector('.fa-plus');
-    const currentWeatherInfo = document.querySelector('#currentWeatherInfo');
-    const description = document.querySelector('#description');
-    const currentLogo = document.querySelector('#currentLogo');
-    const timezone = document.querySelector('#currentTimezone');
-    const minMax = document.querySelector('#minMax');
-    const humidity = document.querySelector('#humidity');
-    const alert = document.querySelector('#alert');
-    const celsius = document.querySelector('#celsius');
-    const fahrenheit = document.querySelector('#fahrenheit');
+    let element = elem => document.querySelector(elem);
+
+    const searchbarOutterContainer = element('#searchbarOutterContainer');
+    const weatherDisplayContainer = element('.weatherDisplayContainer');
+    const input = element('#input');
+    const addSymbol = element('.cityToAdd i');
+    const miniAddSymbol = element('.fa-plus');
+    const placeholder = element('.labelContainer');
+    const currentWeatherInfo = element('#currentWeatherInfo');
+    const currentLogo = element('#currentLogo');
+    const timezone = element('#currentTimezone');
+    const minMax = element('#minMax');
+    const humidity = element('#humidity');
+    const alert = element('#alert');
+    const celsius = element('#celsius');
+    const fahrenheit = element('#fahrenheit');
+    const apiKey = '2f16685a3fb03f47a60534438b10f855';
+    const proxy = 'https://cors-anywhere.herokuapp.com/';
+    let api;
     let lon;
     let lat;
 
-    // search engine
-    // add a feature which won't ring 'Add More cities' back if the input value is not empty
 
+/* *************************************************** */
+/* ****************** SEARCH ENGINE ****************** */
+/* *************************************************** */ 
+
+    miniAddSymbol.addEventListener('click', () => {
+        api = `${proxy}api.openweathermap.org/data/2.5/weather?q=${input.value}&appid=${apiKey}&units=metric`;
+        console.log(api)
+        fetch(api)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if (data.message === undefined) {
+                    const newWeatherContainer = document.createElement('div');
+                    newWeatherContainer.classList.add('weatherInnerContainer');
+                    newWeatherContainer.innerHTML = `<div class="weatherInfo">
+                                                        <h2 class="timeZone">${data.name}, ${data.sys.country}</h2>
+                                                        <p>
+                                                            <span><i class="fa fa-thermometer-half"></i> ${Math.round(data.main.temp)}&#8451;</span>
+                                                            <span class="fahrenheit"><i class="fa fa-thermometer-three-quarters"></i> ${Math.round( (data.main.temp * 9/5) + 32 )}&#8457;</span>
+                                                        </p>
+                                                        <p>
+                                                            <span><i class="fa fa-sort-alt"></i> ${Math.round(data.main.temp_min)}&#8451; / ${Math.round(data.main.temp_max)}&#8451;</span>
+                                                            <span class="humidity"><i class="fa fa-tint"></i> ${data.main.humidity}%</span>
+                                                        </p>
+                                                    </div>
+    
+                                                    <div class="weatherLogo">
+                                                        <figure>
+                                                            <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="Logo">
+                                                            <figcaption>${data.weather[0].description}</figcaption>
+                                                        </figure>
+                                                    </div>`;
+                        
+                    weatherDisplayContainer.insertBefore(newWeatherContainer, weatherDisplayContainer.childNodes[weatherDisplayContainer.childNodes.length - 2]);    
+                }
+                else if (data.message === 'Nothing to ') {
+                    //
+                }
+            })
+            .catch(err => {
+                //console.log(`Error : ${err}`);
+            });
+    });
+
+
+/* **************************************************** */
+/* **************** INPUT INTERACTIONS **************** */
+/* **************************************************** */ 
+
+    // focus on the input when the visitor clicks on the add symbol
     addSymbol.addEventListener('click', () => {
-        window.location.hash = 'input';
-        miniAddSymbol.style.top = '0.73rem';
-        input.style.border = '2px solid red';
+        window.location.hash = 'searchbarOutterContainer';
         input.focus();
     });
 
-    input.addEventListener('blur', () => {
-        input.style.border = 'none';
-        miniAddSymbol.style.top = '0.55rem';
-    });
+    // keep the placeholder disappear when the input is not empty
+
+
+/* *************************************************** */
+/* AUTOMATIC GEOLOCATOR FOR VISITORS' CURRENT LOCATION */
+/* *************************************************** */ 
 
     // check if the location exists
     if (navigator.geolocation) {
@@ -41,10 +97,8 @@ window.addEventListener('load', () => {
         navigator.geolocation.getCurrentPosition(position => {
             lat = position.coords.latitude;
             lon = position.coords.longitude;
-            const apiKey = '2f16685a3fb03f47a60534438b10f855';
-            const proxy = 'https://cors-anywhere.herokuapp.com/';
-            const api = `${proxy}api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
-
+            api = `${proxy}api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+        
             // fetch / convert / display data of the current location
             fetch(api)
                 .then(response => {
@@ -54,15 +108,18 @@ window.addEventListener('load', () => {
                     console.log(data);
                     timezone.innerHTML = `${data.name}, ${data.sys.country}`;
                     celsius.innerHTML = `<i class="fa fa-thermometer-half"></i> ${Math.round(data.main.temp)}&#8451;`;
-                    fahrenheit.innerHTML = `<i class="fa fa-thermometer-three-quarters"></i> ${Math.round(data.main.temp * 33.8)}&#8457;`;
+                    fahrenheit.innerHTML = `<i class="fa fa-thermometer-three-quarters"></i> ${Math.round( (data.main.temp * 9/5) + 32 )}&#8457;`;
                     minMax.innerHTML = `<i class="fa fa-sort-alt"></i> ${Math.round(data.main.temp_min)}&#8451; / ${Math.round(data.main.temp_max)}&#8451;`;
                     humidity.innerHTML = `<i class="fa fa-tint"></i> ${data.main.humidity}%`;
-                    description.style.textTransform = 'capitalize';
-                    description.innerHTML = data.weather[0].description;
+                    currentLogo.innerHTML = `<figure>
+                                                <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="weather logo">
+                                                <figcaption id="description" style="text-transform: capitalize;">${data.weather[0].description}</figcaption>
+                                            </figure>`;
                 })
                 .catch(err => {
                     console.log(`Error : ${err}`);
                 }); 
+            
         });
     }
     else {
@@ -70,3 +127,4 @@ window.addEventListener('load', () => {
         alert.style.display = 'block';   
     }
 });
+

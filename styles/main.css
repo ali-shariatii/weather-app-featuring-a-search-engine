@@ -60,6 +60,8 @@ textarea {
 ========================================================================== */
 
 * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -107,7 +109,7 @@ body {
     border-radius: 0.6rem;
     width: 60vw;
     color: grey;
-    transition: 0.1s all linear;
+    transition: 0.3s all linear;
 }
 
 .fa-plus {
@@ -119,7 +121,7 @@ body {
     top: 0.55rem;
     cursor: pointer;
     color: transparent;
-    transition: all ease-in-out 0.2s;
+    transition: all linear 0.2s;
 }
 
 .labelContainer,
@@ -132,8 +134,9 @@ body {
     position: absolute;
     left: 0.6rem;
     top: 0.45rem;
-    transition: all ease-in-out 0.2s;
+    transition: all linear 0.2s;
 }
+
 
 .searchbarInnerContainer:focus-within .labelContainer > span {
     transform: translateX(-0.6rem);
@@ -151,6 +154,7 @@ body {
     display: flex;
     flex-flow: nowrap column;
     gap: 2.5rem;
+    transition: 0.3s all linear;
 }
 
 .weatherInnerContainer {
@@ -159,6 +163,7 @@ body {
     width: 90%;
     margin: auto;
     padding: 0.5rem 0;
+    transition: 0.3s all linear;
 }
 
 .cityToAdd {
@@ -166,7 +171,7 @@ body {
     align-items: center;
     justify-content: center;
     width: 90%;
-    margin: 0 auto 5rem auto;
+    margin: 4rem auto 5rem auto;
     font-size: 3.3rem;
 }
 
@@ -179,6 +184,10 @@ body {
     flex: 2.5;
 }
 
+.timeZone {
+    font-size: 1.3rem;
+}
+
 .fahrenheit,
 .humidity {
     margin-left: 1.3rem;
@@ -186,9 +195,26 @@ body {
 
 .weatherLogo {
     display: flex;
+    flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-    flex: 1; 
+    flex: 1.5; 
+}
+
+.weatherLogo figure {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.weatherLogo figure > img {
+    margin-top: -1.65rem;
+}
+
+.weatherLogo figure > figcaption {
+    text-align: center;
+    margin-top: -1.33rem;
 }
 
 #alert {
@@ -219,6 +245,7 @@ body {
 
 /* Medium devices (tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
+
 
     .weatherInnerContainer,
     .cityToAdd {

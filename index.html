@@ -6,8 +6,8 @@
     <title>Weather App Featuring Reusable Search Engine</title>
     <meta name="viewport" content="wclassth=device-wclassth, initial-scale=1">
 
-    <!-- add google search description here -->
-    <meta name="description" content="">
+    <!-- add google search  here -->
+    <meta name="" content="">
 
     <!-- share window structure in social medias (facebook, twitter) 
     Reconciling the guclasselines for the image is simple: follow Facebook’s 
@@ -16,7 +16,7 @@
     Use absolute paths (http://www.mysite.com) for the img & the url meta tags.
     Refer to https://ogp.me/ for more info. -->
     <meta property="og:title" content="">
-    <meta property="og:description" content="">
+    <meta property="og:" content="">
     <meta property="og:image" content="">
     <meta property="og:url" content="">
 
@@ -44,11 +44,11 @@
 
     <div class="appContainer">
 
-        <div class="searchbarOutterContainer">
-            <div class="searchbarInnerContainer">
-                <input type="text" name="new location" autocomplete="off" id="input">
+        <div class="searchbarOutterContainer" id="searchbarOutterContainer">
+            <div class="searchbarInnerContainer" >
+                <input type="input" name="new time zone" autocomplete="off" id="input">
                 <label for="new location" class="labelContainer">
-                    <span>Add more cities ...</span>
+                    <span>Add city, state, country ...</span>
                 </label>
                 <button class="fa fa-plus"></button>
             </div>
@@ -57,7 +57,7 @@
         <div class="weatherDisplayContainer">
             <div class="weatherInnerContainer">
                 <div class="weatherInfo" id="currentWeatherInfo">
-                    <h3 id="currentTimezone">Timezone</h3>
+                    <h2 class="timeZone" id="currentTimezone">Your Time Zone</h2>
                     <p>
                         <span id="celsius"><i class="fa fa-thermometer-half"></i> - &#8451;</span>
                         <span class="fahrenheit" id="fahrenheit"><i class="fa fa-thermometer-three-quarters"></i> - &#8457;</span>
@@ -66,11 +66,13 @@
                         <span id="minMax"><i class="fa fa-sort-alt"></i> - &#8451; / - &#8451;</span>
                         <span class="humidity" id="humidity"><i class="fa fa-tint"></i> - %</span>
                     </p>
-                    <p id="description">Description</p>
                 </div>
 
                 <div class="weatherLogo" id="currentLogo">
-                    <p>logo</p>
+                    <figure>
+                        <img src="" alt="Logo">
+                        <figcaption id=""></figcaption>
+                    </figure>
                 </div>   
 
                 <div id="alert">
