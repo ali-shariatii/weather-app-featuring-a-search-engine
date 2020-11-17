@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>Weather App Featuring Reusable Search Engine</title>
-    <meta name="viewport" content="wclassth=device-wclassth, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- add google search  here -->
     <meta name="" content="">
@@ -30,8 +30,8 @@
     <link rel="stylesheet" href="styles/normalize.min.css">
     <link rel="stylesheet" href="styles/main.css">
 
-    <!-- Preload your font(s) here by adding the href and type -->
-    <link rel="preload" href="" as="font" type="font/" crossorigin>
+    <!-- Preload your font(s) here by adding the href and type 
+    <link rel="preload" href="" as="font" type="font/" crossorigin> -->
 
     <!-- Place CDN vendor here -->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
@@ -46,14 +46,13 @@
 
         <div class="searchbarOutterContainer">
             <div class="searchbarInnerContainer" >
-                <form>
-                    <input type="input" name="new time zone" autocomplete="off" class="input">
-                    <label for="new location" class="placeholder">
-                        <span>Add city, state, country ...</span>
-                    </label>
-                    <button class="addCityBtn1"><i class="fa fa-plus"></i></button>
-                </form>
+                <input type="input" name="new time zone" autocomplete="off" class="input">
+                <label for="new location" class="placeholder">
+                    <span>Add city, state, country ...</span>
+                </label>
+                <button class="addCityBtn1"><i class="fa fa-plus"></i></button>
             </div>
+            <p>Server may not respond or respond with delay!</p>
         </div>
 
         <div class="weatherOutterContainer">
@@ -80,10 +79,15 @@
                 <div id="locationOffAlert">
                     <p>Automatic geolocator is not working because it's neither supported by this browser nor the Location access is on. Add your current location manually instead!</p>
                 </div>
-
             </div>
 
             <div class="addCityBtn2"><i class="fa fa-map-marker-plus"></i></div>
+        </div>
+
+        <!-- error warning window -->
+        <div class="errWarningWin">
+            <p></p>
+            <button><i class="fal fa-times"></i></button>
         </div>
     </div>
 

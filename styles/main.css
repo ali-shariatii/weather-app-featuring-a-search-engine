@@ -86,14 +86,25 @@ body {
     min-height: 100%;
     background: linear-gradient(rgb(48, 160, 197), rgb(4, 66, 87));
     font-family: helvetica;
+    overflow-x: hidden;
 }
 
 .searchbarOutterContainer {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-flow: column nowrap;
     width: 100%;
     padding: 5rem 0;
+}
+
+.searchbarOutterContainer > p {
+    position: absolute;
+    bottom: 1.7rem;
+    font-size: 0.9rem;
+    transition: 0.3s all ease;
+    color: rgb(221, 221, 221);
 }
 
 .searchbarInnerContainer {
@@ -236,6 +247,54 @@ body {
     color: rgb(187, 187, 187);
 }
 
+.errWarningWin {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column nowrap;
+    background: linear-gradient(rgb(48, 160, 197), rgb(4, 66, 87));
+    width: 100%;
+    height: 100%;
+    left: -150%;
+    top: 0;
+    z-index: 100;
+    transition: all 0.5s ease;
+}
+
+.errWarningWin p {
+    text-align: center;
+    margin: 2.5rem;
+}
+
+.errWarningWin button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin: 2.5rem;
+    border-radius: 100%;
+    outline: none;
+    border: 2px solid rgb(187, 187, 187);
+    font-size: 1.5rem;
+    background: none;
+    cursor: pointer;
+    transition: all 0.2s linear;
+}
+.errWarningWin button i {
+    color: rgb(187, 187, 187);
+    transition: all 0.2s linear;
+}
+
+.errWarningWin button:hover {
+    border: 2px solid white;
+}
+
+.errWarningWin button:hover i {
+    color: white;
+}
+
 /* Small devices (landscape phones, 576px and up) */
 @media only screen and (min-width: 576px) {
 
@@ -260,7 +319,6 @@ body {
 
 /* Medium devices (tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-
 
     .weatherInnerContainer,
     .addCityBtn2 {

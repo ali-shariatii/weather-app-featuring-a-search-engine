@@ -4,6 +4,7 @@ window.addEventListener('load', () => {
 
     let elm = element => document.querySelector(element);
 
+    const body = elm('body');
     const searchbarOutterContainer = elm('.searchbarOutterContainer');
     const searchbarInnerContainer = elm('.searchbarInnerContainer'); 
     const weatherOutterContainer = elm('.weatherOutterContainer');
@@ -21,6 +22,7 @@ window.addEventListener('load', () => {
     const fahrenheit = elm('#fahrenheit');
     const apiKey = '2f16685a3fb03f47a60534438b10f855';
     const proxy = 'https://cors-anywhere.herokuapp.com/';
+    let errWarningWin = elm('.errWarningWin');
     let api;
     let lon;
     let lat;
@@ -29,17 +31,21 @@ window.addEventListener('load', () => {
 /* ****************** SEARCH ENGINE ****************** */
 /* *************************************************** */ 
 
+    setTimeout(() => {
+        searchbarOutterContainer.querySelector('p').style.opacity = '0';
+    }, 3500);
+
     input.addEventListener('input', () => {
         switch (true) {
             case (input.value.length > 0) :
                 placeholder.style.color = 'transparent';
                 placeholder.style.left = '0';
                 addCityBtn1.style.right = '0.6rem';
-                addCityBtn1.querySelector('i').style.pointerEvents = 'inherit';
+                addCityBtn1.style.pointerEvents = 'auto';
                 addCityBtn1.querySelector('i').style.color = 'rgb(48, 160, 197)';
                 addCityBtn1.querySelector('i').style.transform = 'rotateZ(180deg)';
                 break;
-                
+              
             case (input.value.length === 0) :
                 placeholder.style.color = 'rgb(170, 170, 170)';
                 placeholder.style.left = '0.6rem';
@@ -52,59 +58,85 @@ window.addEventListener('load', () => {
     });
 
     addCityBtn1.querySelector('i').addEventListener('click', () => {
-        api = `${proxy}api.openweathermap.org/data/2.5/weather?q=${input.value}&appid=${apiKey}&units=metric`;
-        console.log(api)
-        fetch(api)
-            .then(response => {
-                return response.json();
-            })
-            .then(data => {
-                const newWeatherContainer = document.createelm('div');
-                newWeatherContainer.classList.add('weatherInnerContainer');
-                newWeatherContainer.innerHTML = `<div class="weatherInfo">
-                                                    <h2 class="timeZone">${data.name}, ${data.sys.country}</h2>
-                                                    <p>
-                                                        <span><i class="fa fa-thermometer-half"></i> ${Math.round(data.main.temp)}&#8451;</span>
-                                                        <span class="fahrenheit"><i class="fa fa-thermometer-three-quarters"></i> ${Math.round( (data.main.temp * 9/5) + 32 )}&#8457;</span>
-                                                    </p>
-                                                    <p>
-                                                        <span><i class="fa fa-sort-alt"></i> ${Math.round(data.main.temp_min)}&#8451; / ${Math.round(data.main.temp_max)}&#8451;</span>
-                                                        <span class="humidity"><i class="fa fa-tint"></i> ${data.main.humidity}%</span>
-                                                    </p>
-                                                </div>
 
-                                                <div class="weatherLogo">
-                                                    <figure>
-                                                        <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="Logo">
-                                                        <figcaption>${data.weather[0].description}</figcaption>
-                                                    </figure>
-                                                </div>
-                                                
-                                                <div class="cityToRemove">
-                                                    <i class="fa fa-map-marker-minus"></i>
-                                                </div>`;
+        let currentTimeZones = document.querySelectorAll('.timeZone');
+
+        // closing the warning window
+        errWarningWin.querySelector('button').addEventListener('click', () => {
+            body.style.overflowY = 'auto';
+            errWarningWin.style.left = '-150%';
+        });
+
+        for (let i = 0; i < currentTimeZones.length; i++) {
+
+            // prevent timeZone duplication - first filter
+            if (currentTimeZones[i].innerText === input.value) {
+                errWarningWin.querySelector('p').innerHTML = `<i>${input.value}</i> has been already added. Please try a new time zone.`;
+                errWarningWin.style.left = '0';
+                body.style.overflowY = 'hidden';
+            }
+            else if (input.value.length < 3 || /^\s+$/.test(input.value)) {
+                errWarningWin.querySelector('p').innerHTML = `Please add a proper input.`;
+                errWarningWin.style.left = '0';
+                body.style.overflowY = 'hidden';
+            }
+            else {
+                api = `${proxy}api.openweathermap.org/data/2.5/weather?q=${input.value}&appid=${apiKey}&units=metric`;
+                console.log(api)
+                fetch(api)
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        const newWeatherContainer = document.createElement('div');
+                        newWeatherContainer.classList.add('weatherInnerContainer');
+                        newWeatherContainer.innerHTML = `<div class="weatherInfo">
+                                                            <h2 class="timeZone">${data.name}, ${data.sys.country}</h2>
+                                                            <p>
+                                                                <span><i class="fa fa-thermometer-half"></i> ${Math.round(data.main.temp)}&#8451;</span>
+                                                                <span class="fahrenheit"><i class="fa fa-thermometer-three-quarters"></i> ${Math.round( (data.main.temp * 9/5) + 32 )}&#8457;</span>
+                                                            </p>
+                                                            <p>
+                                                                <span><i class="fa fa-sort-alt"></i> ${Math.round(data.main.temp_min)}&#8451; / ${Math.round(data.main.temp_max)}&#8451;</span>
+                                                                <span class="humidity"><i class="fa fa-tint"></i> ${data.main.humidity}%</span>
+                                                            </p>
+                                                        </div>
+        
+                                                        <div class="weatherLogo">
+                                                            <figure>
+                                                                <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="Logo">
+                                                                <figcaption>${data.weather[0].description}</figcaption>
+                                                            </figure>
+                                                        </div>
+                                                        
+                                                        <div class="cityToRemove">
+                                                            <i class="fa fa-map-marker-minus"></i>
+                                                        </div>`;
+                            
+                        weatherOutterContainer.insertBefore(newWeatherContainer, weatherOutterContainer.childNodes[weatherOutterContainer.childNodes.length - 2]); 
+                    })
+                    .then(() => {
+                        // reset the searchbar
+                        input.value.length = 0;
+        
+                        // remove the time zone you want
+                        if (document.body.contains(elm('.cityToRemove'))) {
+                            let citiesToRemove = document.querySelectorAll('.cityToRemove');
+        
+                            for (let i = 0; i < citiesToRemove.length; i++) {
+                                let cityToRemove = citiesToRemove[i].parentNode;
                     
-                weatherOutterContainer.insertBefore(newWeatherContainer, weatherOutterContainer.childNodes[weatherOutterContainer.childNodes.length - 2]); 
-            })
-            .then(() => {
-                input.value = '';
-
-                // remove the time zone you want
-                if (document.body.contains(elm('.cityToRemove'))) {
-                    let citiesToRemove = document.querySelectorAll('.cityToRemove');
-
-                    for (let i = 0; i < citiesToRemove.length; i++) {
-                        let cityToRemove = citiesToRemove[i].parentNode;
-            
-                        citiesToRemove[i].addEventListener('click',() => {
-                            weatherOutterContainer.removeChild(cityToRemove);
-                        });
-                    }
-                }
-            })
-            .catch(err => {
-                console.log(`Error : ${err}`);
-            });
+                                citiesToRemove[i].addEventListener('click',() => {
+                                    weatherOutterContainer.removeChild(cityToRemove);
+                                });
+                            }
+                        }
+                    })
+                    .catch(err => {
+                        console.log(`Error : ${err}`);
+                    });
+            }
+        }
     });
 
     // focus on the input when the visitor clicks on the addCityBtn2
@@ -117,7 +149,7 @@ window.addEventListener('load', () => {
 /* *************************************************** */
 /* AUTOMATIC GEOLOCATOR FOR VISITORS' CURRENT LOCATION */
 /* *************************************************** */ 
-    
+/* 
     // check if the location exists
     if (navigator.geolocation) {
         currentWeatherInfo.style.display = currentLogo.style.display = 'auto';
@@ -156,6 +188,6 @@ window.addEventListener('load', () => {
         currentWeatherInfo.style.display = currentLogo.style.display = 'none';
         locationOffAlert.style.display = 'block';   
     }
-    
+*/
 });
 
