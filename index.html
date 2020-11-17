@@ -44,26 +44,28 @@
 
     <div class="appContainer">
 
-        <div class="searchbarOutterContainer" id="searchbarOutterContainer">
+        <div class="searchbarOutterContainer">
             <div class="searchbarInnerContainer" >
-                <input type="input" name="new time zone" autocomplete="off" id="input">
-                <label for="new location" class="labelContainer">
-                    <span>Add city, state, country ...</span>
-                </label>
-                <button class="fa fa-plus"></button>
+                <form>
+                    <input type="input" name="new time zone" autocomplete="off" class="input">
+                    <label for="new location" class="placeholder">
+                        <span>Add city, state, country ...</span>
+                    </label>
+                    <button class="addCityBtn1"><i class="fa fa-plus"></i></button>
+                </form>
             </div>
         </div>
 
-        <div class="weatherDisplayContainer">
+        <div class="weatherOutterContainer">
             <div class="weatherInnerContainer">
                 <div class="weatherInfo" id="currentWeatherInfo">
-                    <h2 class="timeZone" id="currentTimezone">Your Time Zone</h2>
+                    <h2 class="timeZone" id="currentTimeZone">Your Time Zone</h2>
                     <p>
                         <span id="celsius"><i class="fa fa-thermometer-half"></i> - &#8451;</span>
                         <span class="fahrenheit" id="fahrenheit"><i class="fa fa-thermometer-three-quarters"></i> - &#8457;</span>
                     </p>
                     <p>
-                        <span id="minMax"><i class="fa fa-sort-alt"></i> - &#8451; / - &#8451;</span>
+                        <span id="minMaxTemp"><i class="fa fa-sort-alt"></i> - &#8451; / - &#8451;</span>
                         <span class="humidity" id="humidity"><i class="fa fa-tint"></i> - %</span>
                     </p>
                 </div>
@@ -73,14 +75,15 @@
                         <img src="" alt="Logo">
                         <figcaption id=""></figcaption>
                     </figure>
-                </div>   
+                </div>
 
-                <div id="alert">
+                <div id="locationOffAlert">
                     <p>Automatic geolocator is not working because it's neither supported by this browser nor the Location access is on. Add your current location manually instead!</p>
                 </div>
+
             </div>
 
-            <div class="cityToAdd"><i class="fa fa-map-marker-plus"></i></div>
+            <div class="addCityBtn2"><i class="fa fa-map-marker-plus"></i></div>
         </div>
     </div>
 
