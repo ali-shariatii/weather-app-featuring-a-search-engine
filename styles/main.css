@@ -102,7 +102,7 @@ body {
     height: fit-content;
 }
 
-#input {
+.input {
     outline: none;
     border: none;
     padding: 0.5rem;
@@ -112,7 +112,7 @@ body {
     transition: 0.3s all linear;
 }
 
-.fa-plus {
+.addCityBtn1 {
     position: absolute;
     outline: none;
     border: none;
@@ -120,16 +120,20 @@ body {
     right: 0;
     top: 0.55rem;
     cursor: pointer;
+    transition: all linear 0.2s;
+    pointer-events: none;
+}
+
+.addCityBtn1 i {
     color: transparent;
     transition: all linear 0.2s;
 }
 
-.labelContainer,
-.fa-plus {
+.placeholder {
     pointer-events: none;
 }
 
-.labelContainer span {
+.placeholder span {
     color: rgb(170, 170, 170);
     position: absolute;
     left: 0.6rem;
@@ -137,20 +141,7 @@ body {
     transition: all linear 0.2s;
 }
 
-
-.searchbarInnerContainer:focus-within .labelContainer > span {
-    transform: translateX(-0.6rem);
-    color: transparent;
-}
-
-.searchbarInnerContainer:focus-within .fa-plus {
-    right: 0.6rem;
-    transform: rotateZ(180deg);
-    color: rgb(48, 160, 197);
-    pointer-events: initial;
-}
-
-.weatherDisplayContainer {
+.weatherOutterContainer {
     display: flex;
     flex-flow: nowrap column;
     gap: 2.5rem;
@@ -158,6 +149,7 @@ body {
 }
 
 .weatherInnerContainer {
+    position: relative;
     display: flex;
     flex-flow: row nowrap;
     width: 90%;
@@ -166,18 +158,36 @@ body {
     transition: 0.3s all linear;
 }
 
-.cityToAdd {
+.addCityBtn2 {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 90%;
-    margin: 4rem auto 5rem auto;
+    margin: 2.5rem auto 5rem auto;
     font-size: 3.3rem;
 }
 
-.fa-map-marker-plus {
+.cityToRemove {
+    position: absolute;
+    right: 0;
+    top: -1rem;
+    font-size: 1.2rem;
+    transition: 0.3s all linear;
+}
+
+.fa-map-marker-plus,
+.fa-map-marker-minus {
     color:rgba(187, 187, 187, 0.35);
     cursor: pointer;
+    transition: all linear 0.2s;
+}
+
+.fa-map-marker-plus:hover {
+    color:white;
+}
+
+.fa-map-marker-minus:hover {
+    color: tomato;
 }
 
 .weatherInfo {
@@ -198,7 +208,7 @@ body {
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-    flex: 1.5; 
+    flex: 1.75; 
 }
 
 .weatherLogo figure {
@@ -217,11 +227,11 @@ body {
     margin-top: -1.33rem;
 }
 
-#alert {
+#locationOffAlert {
     display: none;
 }
 
-#alert p {
+#locationOffAlert p {
     text-align: center;
     color: rgb(187, 187, 187);
 }
@@ -234,11 +244,16 @@ body {
         padding: 1rem 2rem;
     }
 
-    .cityToAdd {
+    .cityToRemove {
+        right: 2rem;
+        top: -0.5rem;
+    }
+
+    .addCityBtn2 {
         width: 70%;
     }
 
-    #input {
+    .input {
         width: 50vw;
     }
 }
@@ -248,11 +263,11 @@ body {
 
 
     .weatherInnerContainer,
-    .cityToAdd {
+    .addCityBtn2 {
         width: 65%;
     }
 
-    #input {
+    .input {
         width: 40vw;
     }
 }
@@ -260,18 +275,18 @@ body {
 /* Large devices (desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
 
-    .weatherDisplayContainer {
+    .weatherOutterContainer {
         flex-flow: row wrap;
         justify-content: center;
     }
 
     .weatherInnerContainer,
-    .cityToAdd {
+    .addCityBtn2 {
         width: 40%;
         margin: 0;
     }
 
-    #input {
+    .input {
         width: 30vw;
     }
 }
@@ -279,12 +294,17 @@ body {
 /* Extra large devices (large desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
 
+    .weatherOutterContainer {
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+
     .weatherInnerContainer,
-    .cityToAdd {
+    .addCityBtn2 {
         width: 28rem;
     }
     
-    #input {
+    .input {
         width: 25rem;
     }
 }
