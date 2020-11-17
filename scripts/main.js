@@ -23,6 +23,7 @@ window.addEventListener('load', () => {
     const apiKey = '2f16685a3fb03f47a60534438b10f855';
     const proxy = 'https://cors-anywhere.herokuapp.com/';
     let errWarningWin = elm('.errWarningWin');
+    let warningAlarm = elm('.searchbarOutterContainer p');
     let api;
     let lon;
     let lat;
@@ -31,9 +32,13 @@ window.addEventListener('load', () => {
 /* ****************** SEARCH ENGINE ****************** */
 /* *************************************************** */ 
 
-    setTimeout(() => {
-        searchbarOutterContainer.querySelector('p').style.opacity = '0';
-    }, 3500);
+    let warning = (duration) => {
+        setTimeout(() => {
+            warningAlarm.style.opacity = '0';
+        }, duration);
+    }
+
+    warning();
 
     input.addEventListener('input', () => {
         switch (true) {
@@ -60,82 +65,113 @@ window.addEventListener('load', () => {
     addCityBtn1.querySelector('i').addEventListener('click', () => {
 
         let currentTimeZones = document.querySelectorAll('.timeZone');
-
-        // closing the warning window
-        errWarningWin.querySelector('button').addEventListener('click', () => {
-            body.style.overflowY = 'auto';
-            errWarningWin.style.left = '-150%';
-        });
+        let alertFree = true;
 
         for (let i = 0; i < currentTimeZones.length; i++) {
 
             // prevent timeZone duplication - first filter
-            if (currentTimeZones[i].innerText === input.value) {
-                errWarningWin.querySelector('p').innerHTML = `<i>${input.value}</i> has been already added. Please try a new time zone.`;
-                errWarningWin.style.left = '0';
-                body.style.overflowY = 'hidden';
-            }
-            else if (input.value.length < 3 || /^\s+$/.test(input.value)) {
-                errWarningWin.querySelector('p').innerHTML = `Please add a proper input.`;
-                errWarningWin.style.left = '0';
-                body.style.overflowY = 'hidden';
-            }
-            else {
-                api = `${proxy}api.openweathermap.org/data/2.5/weather?q=${input.value}&appid=${apiKey}&units=metric`;
-                console.log(api)
-                fetch(api)
-                    .then(response => {
+            if (currentTimeZones[i].innerText.slice(0, currentTimeZones[i].innerText.indexOf(',')).toLowerCase().includes(input.value.toLowerCase())) {
+                alertFree = false;
+                warningAlarm.style.opacity = '1';
+                warningAlarm.innerHTML = `<i>${input.value}</i> has already been added. Please try a new time zone.`;
+                warning(2000);
+                break;
+            } 
+        }
+
+        if (input.value.length < 3 || /^\s+$/.test(input.value)) {
+            alertFree = false;
+            warningAlarm.style.opacity = '1';
+            warningAlarm.innerText = 'Please add a proper input.';
+            warning(2000);
+        }
+
+        if (alertFree === true) {
+
+            warningAlarm.style.opacity = '1';
+            warningAlarm.innerText = 'Waiting for the server to respond ... \n More click attempts may result longer response.';
+            
+            api = `${proxy}api.openweathermap.org/data/2.5/weather?q=${input.value}&appid=${apiKey}&units=metric`;
+            console.log(api)
+            fetch(api)
+                .then(response => {
+                    console.log(`RESPONSE STATUS : ${response.status}`);
+  
+                    // server is down
+                    if (response.status === 429) {
+                        warningAlarm.style.opacity = '1';
+                        warningAlarm.innerText = 'Sorry, the server is not responding. Try again in 5 minutes.';
+                        warning(3500);
+                    }
+
+                    // time zone non-existent.
+                    if (response.status === 404) {
+                        warningAlarm.style.opacity = '1';
+                        warningAlarm.innerText = "Sorry, the time zone doesn't exist or misspelled. You may also try using (-) or accents.";
+                        warning(3000);
+                    }
+
+                    // fetch successful
+                    if (response.status === 200) {
                         return response.json();
-                    })
-                    .then(data => {
-                        const newWeatherContainer = document.createElement('div');
-                        newWeatherContainer.classList.add('weatherInnerContainer');
-                        newWeatherContainer.innerHTML = `<div class="weatherInfo">
-                                                            <h2 class="timeZone">${data.name}, ${data.sys.country}</h2>
-                                                            <p>
-                                                                <span><i class="fa fa-thermometer-half"></i> ${Math.round(data.main.temp)}&#8451;</span>
-                                                                <span class="fahrenheit"><i class="fa fa-thermometer-three-quarters"></i> ${Math.round( (data.main.temp * 9/5) + 32 )}&#8457;</span>
-                                                            </p>
-                                                            <p>
-                                                                <span><i class="fa fa-sort-alt"></i> ${Math.round(data.main.temp_min)}&#8451; / ${Math.round(data.main.temp_max)}&#8451;</span>
-                                                                <span class="humidity"><i class="fa fa-tint"></i> ${data.main.humidity}%</span>
-                                                            </p>
-                                                        </div>
-        
-                                                        <div class="weatherLogo">
-                                                            <figure>
-                                                                <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="Logo">
-                                                                <figcaption>${data.weather[0].description}</figcaption>
-                                                            </figure>
-                                                        </div>
-                                                        
-                                                        <div class="cityToRemove">
-                                                            <i class="fa fa-map-marker-minus"></i>
-                                                        </div>`;
-                            
-                        weatherOutterContainer.insertBefore(newWeatherContainer, weatherOutterContainer.childNodes[weatherOutterContainer.childNodes.length - 2]); 
-                    })
-                    .then(() => {
-                        // reset the searchbar
-                        input.value.length = 0;
-        
-                        // remove the time zone you want
-                        if (document.body.contains(elm('.cityToRemove'))) {
-                            let citiesToRemove = document.querySelectorAll('.cityToRemove');
-        
-                            for (let i = 0; i < citiesToRemove.length; i++) {
-                                let cityToRemove = citiesToRemove[i].parentNode;
-                    
-                                citiesToRemove[i].addEventListener('click',() => {
-                                    weatherOutterContainer.removeChild(cityToRemove);
-                                });
-                            }
+                    }
+                })
+                .then(data => {
+                    warning(2000);
+                    const newWeatherContainer = document.createElement('div');
+                    newWeatherContainer.classList.add('weatherInnerContainer');
+                    newWeatherContainer.innerHTML = `<div class="weatherInfo">
+                                                        <h2 class="timeZone">${data.name}, ${data.sys.country}</h2>
+                                                        <p>
+                                                            <span><i class="fa fa-thermometer-half"></i> ${Math.round(data.main.temp)}&#8451;</span>
+                                                            <span class="fahrenheit"><i class="fa fa-thermometer-three-quarters"></i> ${Math.round( (data.main.temp * 9/5) + 32 )}&#8457;</span>
+                                                        </p>
+                                                        <p>
+                                                            <span><i class="fa fa-sort-alt"></i> ${Math.round(data.main.temp_min)}&#8451; / ${Math.round(data.main.temp_max)}&#8451;</span>
+                                                            <span class="humidity"><i class="fa fa-tint"></i> ${data.main.humidity}%</span>
+                                                        </p>
+                                                    </div>
+    
+                                                    <div class="weatherLogo">
+                                                        <figure>
+                                                            <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="Logo">
+                                                            <figcaption>${data.weather[0].description}</figcaption>
+                                                        </figure>
+                                                    </div>
+                                                    
+                                                    <div class="cityToRemove">
+                                                        <i class="fa fa-map-marker-minus"></i>
+                                                    </div>`;
+                        
+                    weatherOutterContainer.insertBefore(newWeatherContainer, weatherOutterContainer.childNodes[weatherOutterContainer.childNodes.length - 2]); 
+                })
+                .then(() => {
+                    // reset the searchbar
+                    input.value = '';
+                    placeholder.style.color = 'rgb(170, 170, 170)';
+                    placeholder.style.left = '0.6rem';
+                    addCityBtn1.style.right = '0';
+                    addCityBtn1.style.pointerEvents = 'none';
+                    addCityBtn1.querySelector('i').style.color = 'transparent';
+                    addCityBtn1.querySelector('i').style.transform = 'rotateZ(0deg)';
+                    input.blur();
+    
+                    // remove the time zone you want
+                    if (document.body.contains(elm('.cityToRemove'))) {
+                        let citiesToRemove = document.querySelectorAll('.cityToRemove');
+    
+                        for (let i = 0; i < citiesToRemove.length; i++) {
+                            let cityToRemove = citiesToRemove[i].parentNode;
+                
+                            citiesToRemove[i].addEventListener('click',() => {
+                                weatherOutterContainer.removeChild(cityToRemove);
+                            });
                         }
-                    })
-                    .catch(err => {
-                        console.log(`Error : ${err}`);
-                    });
-            }
+                    }
+                })
+                .catch(err => {
+                    console.log(`Error : ${err}`);
+                });
         }
     });
 
@@ -149,11 +185,9 @@ window.addEventListener('load', () => {
 /* *************************************************** */
 /* AUTOMATIC GEOLOCATOR FOR VISITORS' CURRENT LOCATION */
 /* *************************************************** */ 
-/* 
+
     // check if the location exists
     if (navigator.geolocation) {
-        currentWeatherInfo.style.display = currentLogo.style.display = 'auto';
-        locationOffAlert.style.display = 'none';
 
         // get the current location
         navigator.geolocation.getCurrentPosition(position => {
@@ -181,13 +215,12 @@ window.addEventListener('load', () => {
                 .catch(err => {
                     console.log(`Error : ${err}`);
                 }); 
-            
         });
     }
     else {
-        currentWeatherInfo.style.display = currentLogo.style.display = 'none';
-        locationOffAlert.style.display = 'block';   
+        warningAlarm.style.opacity = '1';
+        warningAlarm.innerText = 'Automatic geolocator is not working because it's neither supported by this browser nor your device Location is on.';
+        warning(3000);  
     }
-*/
 });
 
