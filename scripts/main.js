@@ -38,7 +38,7 @@ window.addEventListener('load', () => {
         }, duration);
     }
 
-    warning();
+    warning(3000);
 
     input.addEventListener('input', () => {
         switch (true) {
@@ -117,7 +117,7 @@ window.addEventListener('load', () => {
                     }
                 })
                 .then(data => {
-                    warning(2000);
+                    warning(1000);
                     const newWeatherContainer = document.createElement('div');
                     newWeatherContainer.classList.add('weatherInnerContainer');
                     newWeatherContainer.innerHTML = `<div class="weatherInfo">
@@ -219,7 +219,7 @@ window.addEventListener('load', () => {
     }
     else {
         warningAlarm.style.opacity = '1';
-        warningAlarm.innerText = 'Automatic geolocator is not working because it's neither supported by this browser nor your device Location is on.';
+        warningAlarm.innerText = "Automatic geolocator is not working because it's neither supported by this browser nor your device Location is on.";
         warning(3000);  
     }
 });
