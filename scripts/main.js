@@ -4,25 +4,19 @@ window.addEventListener('load', () => {
 
     let elm = element => document.querySelector(element);
 
-    const body = elm('body');
-    const searchbarOutterContainer = elm('.searchbarOutterContainer');
-    const searchbarInnerContainer = elm('.searchbarInnerContainer'); 
     const weatherOutterContainer = elm('.weatherOutterContainer');
     const input = elm('.input');
     const addCityBtn1 = elm('.addCityBtn1');
     const addCityBtn2 = elm('.addCityBtn2 i');
     const placeholder = elm('.placeholder span');
-    const currentWeatherInfo = elm('#currentWeatherInfo');
     const currentLogo = elm('#currentLogo');
     const timeZone = elm('#currentTimeZone');
     const minMaxTemp = elm('#minMaxTemp');
     const humidity = elm('#humidity');
-    const locationOffAlert = elm('#locationOffAlert');
     const celsius = elm('#celsius');
     const fahrenheit = elm('#fahrenheit');
     const apiKey = '2f16685a3fb03f47a60534438b10f855';
     const proxy = 'https://cors-anywhere.herokuapp.com/';
-    let errWarningWin = elm('.errWarningWin');
     let warningAlarm = elm('.searchbarOutterContainer p');
     let api;
     let lon;
