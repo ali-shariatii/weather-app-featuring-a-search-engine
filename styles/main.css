@@ -101,7 +101,8 @@ body {
 
 .searchbarOutterContainer > p {
     position: absolute;
-    bottom: 1.7rem;
+    top: 7.6rem;
+    padding: 1rem 2rem;
     font-size: 0.9rem;
     transition: 0.3s all ease;
     text-align: center;

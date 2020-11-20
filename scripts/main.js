@@ -1,26 +1,33 @@
 "use strict";
 
+/*
+
+Next Update: fixing line 168 DOMException error.
+
+*/
+
 window.addEventListener('load', () => {
 
     let elm = element => document.querySelector(element);
 
-    const weatherOutterContainer = elm('.weatherOutterContainer');
-    const input = elm('.input');
-    const addCityBtn1 = elm('.addCityBtn1');
-    const addCityBtn2 = elm('.addCityBtn2 i');
-    const placeholder = elm('.placeholder span');
-    const currentLogo = elm('#currentLogo');
-    const timeZone = elm('#currentTimeZone');
-    const minMaxTemp = elm('#minMaxTemp');
-    const humidity = elm('#humidity');
-    const celsius = elm('#celsius');
-    const fahrenheit = elm('#fahrenheit');
-    const apiKey = '2f16685a3fb03f47a60534438b10f855';
-    const proxy = 'https://cors-anywhere.herokuapp.com/';
-    let warningAlarm = elm('.searchbarOutterContainer p');
-    let api;
-    let lon;
-    let lat;
+    const weatherOutterContainer = elm('.weatherOutterContainer'),
+        input = elm('.input'),
+        addCityBtn1 = elm('.addCityBtn1'),
+        addCityBtn2 = elm('.addCityBtn2 i'),
+        placeholder = elm('.placeholder span'),
+        currentLogo = elm('#currentLogo'),
+        timeZone = elm('#currentTimeZone'),
+        minMaxTemp = elm('#minMaxTemp'),
+        humidity = elm('#humidity'),
+        celsius = elm('#celsius'),
+        fahrenheit = elm('#fahrenheit'),
+        apiKey = '2f16685a3fb03f47a60534438b10f855',
+        proxy = 'https://cors-anywhere.herokuapp.com/';
+
+    let warningAlarm = elm('.searchbarOutterContainer p'), 
+        api, 
+        lon, 
+        lat;
 
 /* *************************************************** */
 /* ****************** SEARCH ENGINE ****************** */
@@ -32,7 +39,7 @@ window.addEventListener('load', () => {
         }, duration);
     }
 
-    warning(3000);
+    warning(3500);
 
     input.addEventListener('input', () => {
         switch (true) {
@@ -63,7 +70,7 @@ window.addEventListener('load', () => {
 
         for (let i = 0; i < currentTimeZones.length; i++) {
 
-            // prevent timeZone duplication - first filter
+            // prevent timeZone duplication
             if (currentTimeZones[i].innerText.slice(0, currentTimeZones[i].innerText.indexOf(',')).toLowerCase().includes(input.value.toLowerCase())) {
                 alertFree = false;
                 warningAlarm.style.opacity = '1';
@@ -95,14 +102,14 @@ window.addEventListener('load', () => {
                     if (response.status === 429) {
                         warningAlarm.style.opacity = '1';
                         warningAlarm.innerText = 'Sorry, the server is not responding. Try again in 5 minutes.';
-                        warning(3500);
+                        warning(4500);
                     }
 
                     // time zone non-existent.
                     if (response.status === 404) {
                         warningAlarm.style.opacity = '1';
                         warningAlarm.innerText = "Sorry, the time zone doesn't exist or misspelled. You may also try using (-) or accents.";
-                        warning(3000);
+                        warning(4500);
                     }
 
                     // fetch successful
@@ -151,8 +158,8 @@ window.addEventListener('load', () => {
                     input.blur();
     
                     // remove the time zone you want
+                    let citiesToRemove = document.querySelectorAll('.cityToRemove');
                     if (document.body.contains(elm('.cityToRemove'))) {
-                        let citiesToRemove = document.querySelectorAll('.cityToRemove');
     
                         for (let i = 0; i < citiesToRemove.length; i++) {
                             let cityToRemove = citiesToRemove[i].parentNode;
@@ -211,10 +218,13 @@ window.addEventListener('load', () => {
                 }); 
         });
     }
-    else {
-        warningAlarm.style.opacity = '1';
-        warningAlarm.innerText = "Automatic geolocator is not working because it's neither supported by this browser nor your device Location is on.";
-        warning(3000);  
-    }
+    
+    setTimeout(() => {
+        if (elm('#currentTimeZone').innerText === "Your Time Zone") {
+            warningAlarm.style.opacity = '1';
+            warningAlarm.innerText = "It seems automatic geolocator neither supported by this browser nor your device Location is on. Try to Add your time zone manually.";
+            warning(10000);          
+        }
+    }, 10000); 
 });
 
