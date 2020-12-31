@@ -209,7 +209,7 @@ window.addEventListener('load', () => {
                     minMaxTemp.innerHTML = `<i class="fa fa-sort-alt"></i> ${Math.round(data.main.temp_min)}&#8451; / ${Math.round(data.main.temp_max)}&#8451;`;
                     humidity.innerHTML = `<i class="fa fa-tint"></i> ${data.main.humidity}%`;
                     currentLogo.innerHTML = `<figure>
-                                                <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="weather logo">
+                                                <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="">
                                                 <figcaption id="description" style="text-transform: capitalize;">${data.weather[0].description}</figcaption>
                                             </figure>`;
                 })
