@@ -55,7 +55,7 @@ Minimum recommended technical knowledge prior to rebuilding the project:
 * JavaScript & WebAPI
     * DOM & DOM methods
     * async javascript
-    * fecthAPI
+    * fetchAPI
     * promises
     * this, let, const & return keywords
     * arrow functions
